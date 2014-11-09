@@ -1,3 +1,10 @@
 from django.db import models
 
-# Create your models here.
+
+class Timer(models.Model):
+    name = models.CharField(max_length=255)
+    seconds = models.PositiveIntegerField(default=0,
+                                          verbose_name="Time in Seconds")
+
+    def increment_time(self, seconds):
+        self.seconds += seconds
