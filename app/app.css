@@ -1,0 +1,29 @@
+/* app css stylesheet */
+
+#title {
+  text-align: center;
+}
+
+.stopBtn {
+  display: none;
+  background-color: #EB301E;
+}
+
+.startBtn {
+  background-color: #BDDB88;
+}
+
+.stopBtn:hover {
+  background-color: #FF7052;
+}
+
+.startBtn:hover {
+  background-color: #DFF7A8;
+}
+
+#newTimer {
+  margin-bottom: 18px;
+  padding-bottom: 4px;
+  border-bottom: solid;
+  border-width: 2px;
+}
