@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="app.css">
 </head>
-<body ng-app="myApp">
-  <div class="row">
+<body>
+  <div ng-app="myApp" class="row">
     <h1 id="title">Timers!</h1>
     <div class="col-md-3"></div>
     <div ng-controller="timersController" class="col-md-6">
@@ -25,16 +25,16 @@
       </div>
 
       <div class="row">
-        <div ng-controller="resourceController" class="animate-container">
-          <div class="animate-repeat" ng-repeat="timer in timers track by $index">
-            <input type="button" value="Start" ng-click="useTimer(timer, $index)" class="btn btn-default startBtn" ng-class="{'myinvisible':runningTimers[timer.id]}">
-            <input type="button" value="Stop" ng-click="useTimer(timer, $index, true)" class="btn btn-default stopBtn myinvisible" ng-class="{'myvisible':runningTimers[timer.id]}">
+        <div ng-controller="resourceController">
+          <div ng-repeat="timer in timers track by $index">
+            <input type="button" value="Start" ng-click="startTimer(timer, $index)" class="btn btn-default startBtn" ng-class="{'myinvisible':runningTimers[timer.id]}">
+            <input type="button" value="Stop" ng-click="stopTimer(timer, $index)" class="btn btn-default stopBtn myinvisible" ng-class="{'myvisible':runningTimers[timer.id]}">
             The <strong>{{timer.name}}</strong> timer has been running for {{timer.seconds}}  seconds.
             <input type="button" value="Delete" ng-click="deleteTimer(timer, $index)" class="btn btn-default">
             <br>
             <br>
           </div>
-          <div class="animate-repeat" ng-if="results.length == 0">
+          <div ng-if="timers.length == 0">
             <strong>No results found...</strong>
           </div>
         </div>
