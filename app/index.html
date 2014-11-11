@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>My AngularJS App</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body ng-app="myApp">
+  <div class="row">
+    <h1 id="title">Timers!</h1>
+    <div class="col-md-3"></div>
+    <div ng-controller="timersController" class="col-md-6">
+      <div id="newTimer" class="row form-inline">
+        <div class="form-group">
+          <form>
+            <label for="titleInput">Timer Title:</label>
+            <input type="text" id="titleInput" ng-model="name" class="form-control">
+            <input type="submit" value="Create!" ng-click="addTimer(name)" class="btn btn-default">
+          </form>
+        </div>
+      </div>
+
+      <div class="row">
+        <div ng-controller="resourceController" class="animate-container">
+          <div class="animate-repeat" ng-repeat="timer in timers">
+            <input type="button" value="Start" ng-click="useTimer(timer, $index)" class="btn btn-default startBtn" id="start{{$index}}">
+            <input type="button" value="Stop" ng-click="useTimer(timer, $index, true)" class="btn btn-default stopBtn" id="stop{{$index}}">
+            The <strong>{{timer.name}}</strong> timer has been running for {{timer.seconds}}  seconds.
+            <input type="button" value="Delete" ng-click="deleteTimer(timer, $index)" class="btn btn-default">
+            <br>
+            <br>
+          </div>
+          <div class="animate-repeat" ng-if="results.length == 0">
+            <strong>No results found...</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-view></div>
+
+  <script src="node_modules/angular/angular.js"></script>
+  <script src="node_modules/angular/angular-resource.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
