@@ -7,4 +7,4 @@ urlpatterns = patterns('',
     url(r'^timers/(?P<pk>[0-9]+)/$', views.TimerDetail.as_view()),
 )
 
-urlpatters = format_suffix_patterns(urlpatterns)
+urlpatterns = format_suffix_patterns(urlpatterns)
