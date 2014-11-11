@@ -30,7 +30,6 @@ api.controller('timersController', [
     $scope.updateTimer = function(timerObj) {
         Timer.get(timerObj, function(timer) {
             timer.seconds = Math.round(timerObj.seconds);
-            alert(timer.seconds);
             timer.$update();
         })
     };
