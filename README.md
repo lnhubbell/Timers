@@ -7,10 +7,3 @@ Djangular Demonstration App:
 Single Page Angular App is served by a SimpleHTTPServer.
 
 Django Rest Framework backend provides API endpoints for the Angular app to communicate with.
-
-
-
-Common Pitfalls:
-* Trailing slash on angular resource conflicts with django url configurations
-* The resource object returned by Angular's $resource service does not come with a built in PUT method.
-* Cross Origin Resource Sharing
