@@ -3,7 +3,6 @@
 // Declare app level module which depends on views, and components
 var api = angular.module('myApp', ['ngResource']);
 
-
 api.config(['$resourceProvider', function($resourceProvider) {
   // Don't strip trailing slashes from calculated URLs
   $resourceProvider.defaults.stripTrailingSlashes = false;
@@ -33,6 +32,18 @@ api.controller('timersController', [
             timer.seconds = timerObj.seconds;
             timer.$update();
         })
+    };
+
+    $scope.deleteTimer = function(timerObj, index) {
+        Timer.get({id: timerObj.id}, function(timer) {
+            timer.$remove().then(function() {
+                var length = $scope.timers.length;
+                var before = $scope.timers.slice(0, index);
+                var after = $scope.timers.slice(index+1, length)
+                $scope.timers = before.concat(after);
+            });
+        })
+
     };
 
     $scope.useTimer = function(timer, index, end) {

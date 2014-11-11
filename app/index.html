@@ -33,6 +33,7 @@
             <input type="button" value="Start" ng-click="useTimer(timer, $index)" class="btn btn-default startBtn" id="start{{$index}}">
             <input type="button" value="Stop" ng-click="useTimer(timer, $index, true)" class="btn btn-default stopBtn" id="stop{{$index}}">
             The <strong>{{timer.name}}</strong> timer has been running for {{timer.seconds}}  seconds.
+            <input type="button" value="Delete" ng-click="deleteTimer(timer, $index)" class="btn btn-default">
             <br>
             <br>
           </div>
