@@ -29,7 +29,8 @@ api.controller('timersController', [
 
     $scope.updateTimer = function(timerObj) {
         Timer.get(timerObj, function(timer) {
-            timer.seconds = timerObj.seconds;
+            timer.seconds = Math.round(timerObj.seconds);
+            alert(timer.seconds);
             timer.$update();
         })
     };
@@ -52,9 +53,8 @@ api.controller('timersController', [
             elapsed = '0.00';
 
         if (end) {
-            window.clearInterval($scope.runningTimers[index]);
-            document.getElementById("stop"+index).style.display = "none";
-            document.getElementById("start"+index).style.display = "inline";
+            window.clearInterval($scope.runningTimers[timer.id]);
+            $scope.runningTimers[timer.id] = null;
             timer.seconds = Math.round(timer.seconds);
             $scope.updateTimer(timer);
         } else {
@@ -64,12 +64,18 @@ api.controller('timersController', [
                 var time = new Date().getTime() - start;
                 elapsed = Math.floor(time / 100) / 10;
                 var newTime = Number(setPoint) + Number(elapsed);
-                $scope.timers[index].seconds = newTime.toFixed(1);
+                for (var i = 0; i < $scope.timers.length; i++) {
+                    if ($scope.timers[i].id === timer.id) {
+                        $scope.timers[i].seconds = newTime.toFixed(1);
+                    }
+                }
                 $scope.$apply();
             }, 100);
-            $scope.runningTimers[index] = interval;
-            document.getElementById("stop"+index).style.display = "inline";
-            document.getElementById("start"+index).style.display = "none";
+            for (var i = 0; i < $scope.timers.length; i++) {
+                if ($scope.timers[i].id === timer.id) {
+                    $scope.runningTimers[timer.id] = interval;
+                }
+            }
         };
     };
 

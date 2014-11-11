@@ -26,9 +26,9 @@
 
       <div class="row">
         <div ng-controller="resourceController" class="animate-container">
-          <div class="animate-repeat" ng-repeat="timer in timers">
-            <input type="button" value="Start" ng-click="useTimer(timer, $index)" class="btn btn-default startBtn" id="start{{$index}}">
-            <input type="button" value="Stop" ng-click="useTimer(timer, $index, true)" class="btn btn-default stopBtn" id="stop{{$index}}">
+          <div class="animate-repeat" ng-repeat="timer in timers track by $index">
+            <input type="button" value="Start" ng-click="useTimer(timer, $index)" class="btn btn-default startBtn" ng-class="{'myinvisible':runningTimers[timer.id]}">
+            <input type="button" value="Stop" ng-click="useTimer(timer, $index, true)" class="btn btn-default stopBtn myinvisible" ng-class="{'myvisible':runningTimers[timer.id]}">
             The <strong>{{timer.name}}</strong> timer has been running for {{timer.seconds}}  seconds.
             <input type="button" value="Delete" ng-click="deleteTimer(timer, $index)" class="btn btn-default">
             <br>
