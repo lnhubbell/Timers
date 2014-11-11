@@ -5,7 +5,6 @@
 }
 
 .stopBtn {
-  display: none;
   background-color: #EB301E;
 }
 
@@ -26,4 +25,12 @@
   padding-bottom: 4px;
   border-bottom: solid;
   border-width: 2px;
+}
+
+.myinvisible {
+  display: none;
+}
+
+.myvisible {
+  display: inline;
 }
