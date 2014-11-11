@@ -8,7 +8,7 @@ api.config(['$resourceProvider', function($resourceProvider) {
   $resourceProvider.defaults.stripTrailingSlashes = false;
 }]);
 
-// possbile django connection stuff
+// Service
 api.factory('Timer', [
   '$resource', function($resource) {
     var resourceObj = $resource('https://stark-hamlet-6905.herokuapp.com/timers/:id/', 
@@ -21,6 +21,7 @@ api.factory('Timer', [
   }
 ]);
 
+// Controllers
 api.controller('timersController', [
     '$scope', 'Timer', function($scope, Timer) {
     $scope.runningTimers = [];
@@ -46,45 +47,12 @@ api.controller('timersController', [
 
     };
 
-    $scope.useTimer = function(timer, index, end) {
-        var setPoint = $scope.timers[index].seconds;
-        var start = new Date().getTime(),
-            elapsed = '0.00';
-
-        if (end) {
-            window.clearInterval($scope.runningTimers[timer.id]);
-            $scope.runningTimers[timer.id] = null;
-            timer.seconds = Math.round(timer.seconds);
-            $scope.updateTimer(timer);
-        } else {
-
-            var interval = window.setInterval(function()
-            {
-                var time = new Date().getTime() - start;
-                elapsed = Math.floor(time / 100) / 10;
-                var newTime = Number(setPoint) + Number(elapsed);
-                for (var i = 0; i < $scope.timers.length; i++) {
-                    if ($scope.timers[i].id === timer.id) {
-                        $scope.timers[i].seconds = newTime.toFixed(0);
-                    }
-                }
-                $scope.$apply();
-            }, 100);
-            for (var i = 0; i < $scope.timers.length; i++) {
-                if ($scope.timers[i].id === timer.id) {
-                    $scope.runningTimers[timer.id] = interval;
-                }
-            }
-        };
-    };
-
     $scope.addTimer = function(name) {
         var timerObj = {name: name, seconds: 0};
         $scope.saveTimer(timerObj);
     };
 
     $scope.saveTimer = function(timerObj) {
-        var json = JSON.stringify(timerObj);
         $scope.newTimer.name = timerObj.name;
         $scope.newTimer.seconds = timerObj.seconds;
         return $scope.newTimer.$save().then(function(result) {
@@ -98,13 +66,43 @@ api.controller('timersController', [
           return $scope.errors = rejection.data;
         });
     };
+
+    $scope.startTimer = function(timer, index) {
+        // intitial variables
+        var setPoint = $scope.timers[index].seconds,
+            start = new Date().getTime(),
+            elapsed = '0.00';
+        // timer loop
+        var interval = window.setInterval(function()
+        {
+            var time = new Date().getTime() - start;
+            elapsed = Math.floor(time / 100) / 10;
+            var newTime = Number(setPoint) + Number(elapsed);
+            for (var i = 0; i < $scope.timers.length; i++) {
+                if ($scope.timers[i].id === timer.id) {
+                    $scope.timers[i].seconds = newTime.toFixed(0);
+                }
+            }
+            $scope.$apply();
+        }, 100);
+        // add timer id to list of running timers
+        for (var i = 0; i < $scope.timers.length; i++) {
+            if ($scope.timers[i].id === timer.id) {
+                $scope.runningTimers[timer.id] = interval;
+            }
+        };
+    };
+
+    $scope.stopTimer = function(timer, index) {
+        window.clearInterval($scope.runningTimers[timer.id]);
+        $scope.runningTimers[timer.id] = null;
+        $scope.updateTimer(timer);
+    };
   }
 ]);
 
-
 api.controller('resourceController', [
   '$scope', '$http', function($scope, $http) {
-    // $scope.timers = [];
     return $http.get('https://stark-hamlet-6905.herokuapp.com/timers/?format=json').then(function(result) {
       return angular.forEach(result.data, function(item) {
         return $scope.timers.push(item);
