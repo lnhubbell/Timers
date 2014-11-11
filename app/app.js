@@ -66,7 +66,7 @@ api.controller('timersController', [
                 var newTime = Number(setPoint) + Number(elapsed);
                 for (var i = 0; i < $scope.timers.length; i++) {
                     if ($scope.timers[i].id === timer.id) {
-                        $scope.timers[i].seconds = newTime.toFixed(1);
+                        $scope.timers[i].seconds = newTime.toFixed(0);
                     }
                 }
                 $scope.$apply();
