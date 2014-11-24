@@ -11,13 +11,13 @@ api.config(['$resourceProvider', function($resourceProvider) {
 // Service
 api.factory('Timer', [
   '$resource', function($resource) {
-    var resourceObj = $resource('https://stark-hamlet-6905.herokuapp.com/timers/:id/', 
+    var resourceObj = $resource('https://stark-hamlet-6905.herokuapp.com/timers/:id/',
     {id: '@id'},
     {update: {
         method: 'PUT' // this method issues a PUT request
       },
     });
-    return resourceObj
+    return resourceObj;
   }
 ]);
 
@@ -32,7 +32,7 @@ api.controller('timersController', [
         Timer.get(timerObj, function(timer) {
             timer.seconds = Math.round(timerObj.seconds);
             timer.$update();
-        })
+        });
     };
 
     $scope.deleteTimer = function(timerObj, index) {
@@ -40,10 +40,10 @@ api.controller('timersController', [
             timer.$remove().then(function() {
                 var length = $scope.timers.length;
                 var before = $scope.timers.slice(0, index);
-                var after = $scope.timers.slice(index+1, length)
+                var after = $scope.timers.slice(index+1, length);
                 $scope.timers = before.concat(after);
             });
-        })
+        });
 
     };
 
@@ -55,15 +55,15 @@ api.controller('timersController', [
     $scope.saveTimer = function(timerObj) {
         $scope.newTimer.name = timerObj.name;
         $scope.newTimer.seconds = timerObj.seconds;
-        return $scope.newTimer.$save().then(function(result) {
-          return $scope.timers.push(result);
+        $scope.newTimer.$save().then(function(result) {
+           $scope.timers.push(result);
         }).then(function() {
-          return $scope.newTimer = new Timer();
+           $scope.newTimer = new Timer();
         }).then(function() {
             $scope.name = null;
-          return $scope.errors = null;
+           $scope.errors = null;
         }, function(rejection) {
-          return $scope.errors = rejection.data;
+           $scope.errors = rejection.data;
         });
     };
 
@@ -90,7 +90,7 @@ api.controller('timersController', [
             if ($scope.timers[i].id === timer.id) {
                 $scope.runningTimers[timer.id] = interval;
             }
-        };
+        }
     };
 
     $scope.stopTimer = function(timer, index) {
@@ -103,9 +103,9 @@ api.controller('timersController', [
 
 api.controller('resourceController', [
   '$scope', '$http', function($scope, $http) {
-    return $http.get('https://stark-hamlet-6905.herokuapp.com/timers/?format=json').then(function(result) {
-      return angular.forEach(result.data, function(item) {
-        return $scope.timers.push(item);
+        $http.get('https://stark-hamlet-6905.herokuapp.com/timers/?format=json').then(function(result) {
+            angular.forEach(result.data, function(item) {
+            $scope.timers.push(item);
       });
     });
   }
